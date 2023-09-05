@@ -1,7 +1,7 @@
-import { createUser } from "./user.mutation.js";
+import { signUp } from "./user.mutation.js";
 
 const Mutation = {
-  createUser,
+  signUp,
 };
 
 export { Mutation };

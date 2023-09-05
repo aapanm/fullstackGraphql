@@ -8,11 +8,11 @@ type User {
 }
 
 type Query {
-  users: [User]
+  signIn(email: String!, password: String!): User!
 }
 
 type Mutation {
-  createUser(
+  signUp(
     name: String!
     address: String!
     email: String!

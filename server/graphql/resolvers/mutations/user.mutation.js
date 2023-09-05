@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const createUser = async (_, args) => {
+const signUp = async (_, args) => {
   const { name, email, address, phone, password } = args;
   try {
     const user = await prisma.user.create({
@@ -20,4 +20,4 @@ const createUser = async (_, args) => {
   }
 };
 
-export { createUser };
+export { signUp };
