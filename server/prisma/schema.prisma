@@ -17,4 +17,21 @@ model User{
   address String @db.VarChar(255)
   phone Int @db.Integer()
   password String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product Products[]
+}
+
+model ProductCategory{
+  id Int @id @default(autoincrement())
+  category String @db.VarChar(255)
+}
+
+model Products{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  userId Int @db.Integer()
+  userInfo User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
