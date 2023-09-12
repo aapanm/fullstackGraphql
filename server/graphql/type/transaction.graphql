@@ -1,0 +1,27 @@
+scalar BigInt
+scalar JSON
+type Transaction {
+  id: Int!
+  trxId: BigInt!
+  productId: Int!
+  userId: Int!
+  transactionTypeId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  transaction(
+    productId: Int!
+    userId: Int!
+    transactionTypeId: Int!
+    rentStartDate: DateTime
+    rentEndDate: DateTime
+    productRentOptionId: Int
+  ): Transaction
+}
+
+type Query {
+  getRentedProducts(userId: Int!): [JSON]
+  getBoughtProducts(userId: Int!): [JSON]
+}

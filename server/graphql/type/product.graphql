@@ -1,0 +1,52 @@
+scalar JSON
+
+type Product {
+  id: Int!
+  title: String!
+  userId: Int!
+  description: String!
+  categoryId: Int!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type RentOptions {
+  id: Int!
+  options: String!
+}
+
+type FetchProducts {
+  id: Int!
+  title: String!
+  userId: Int!
+  description: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  categoryInfo: JSON
+  productRentPrice: [JSON]
+  productPurchasePrice: [JSON]
+}
+
+input ProductInput {
+  title: String
+  description: String
+  categoryId: Int
+  userId: Int
+  purchasePrice: Float
+  rentPrice: Float
+  rentOptionId: Int
+}
+
+type Mutation {
+  createProduct(input: ProductInput): Product
+
+  updateProduct(id: Int!, input: ProductInput): Product
+
+  deleteProduct(productId: Int!): Product
+}
+
+type Query {
+  fetchProductData(productId: Int!): [FetchProducts]
+  createProductStructure: [JSON]
+  fetchAllProductData: [FetchProducts]
+}

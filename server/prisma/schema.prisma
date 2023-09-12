@@ -20,18 +20,78 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   product Products[]
+  transaction Transaction[]
 }
 
 model ProductCategory{
   id Int @id @default(autoincrement())
   category String @db.VarChar(255)
+  product Products[]
 }
 
 model Products{
   id Int @id @default(autoincrement())
-  name String @db.VarChar(100)
+  title String @db.VarChar(100)
+  description String @db.VarChar(255)
+  categoryId Int
+  categoryInfo ProductCategory @relation(fields: [categoryId], references: [id])
   userId Int @db.Integer()
   userInfo User @relation(fields: [userId], references: [id])
+  active Int @db.Integer()
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  productRentPrice ProductRentPrice[]
+  productPurchasePrice ProductPurchasePrice[]
+  transaction Transaction[]
+}
+
+model ProductRentOptions{
+  id Int @id @default(autoincrement())
+  options String @db.VarChar(50)
+  productRentPrice ProductRentPrice[]
+  rentTransacations RentTransactions[]
+}
+
+model ProductRentPrice{
+  id Int @id @default(autoincrement())
+  productId Int @db.Integer() @unique
+  productInfo Products @relation(fields: [productId], references: [id])
+  rentPrice Float @db.DoublePrecision()
+  rentOptionId Int
+  rentOptionInfo ProductRentOptions @relation(fields: [rentOptionId], references: [id])
+}
+
+model ProductPurchasePrice{
+  id Int @id @default(autoincrement())
+  productId Int @db.Integer() @unique
+  productInfo Products @relation(fields: [productId], references: [id])
+  purchasePrice Float @db.DoublePrecision()
+}
+
+model TransactionType{
+  id Int @id @default(autoincrement())
+  transactionType String
+  transaction Transaction[]
+}
+
+model Transaction{
+  id Int @id @default(autoincrement())
+  trxId BigInt @unique
+  productId Int
+  productInfo Products @relation(fields: [productId], references: [id])
+  userId Int
+  userInfo User @relation(fields: [userId], references: [id])
+  transactionTypeId Int
+  transactionTypeInfo TransactionType @relation(fields: [transactionTypeId], references: [id])
+  rentTransacations RentTransactions[]
+}
+
+model RentTransactions{
+  id Int @id @default(autoincrement())
+  transactionId BigInt
+  trxInfo Transaction @relation(fields: [transactionId], references: [trxId])
+  rentOptionId Int
+  rentOptionInfo ProductRentOptions @relation(fields: [rentOptionId], references: [id])
+  startTime DateTime @db.Date
+  endTime DateTime @db.Date
 }
