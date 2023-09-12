@@ -24,4 +24,6 @@ type Mutation {
 type Query {
   getRentedProducts(userId: Int!): [JSON]
   getBoughtProducts(userId: Int!): [JSON]
+  getSoldProducts(userId: Int!): [JSON]
+  getLentProducts(userId: Int!): [JSON]
 }

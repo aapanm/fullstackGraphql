@@ -15,7 +15,11 @@ const fetchAllProductData = async () => {
       },
       include: {
         productPurchasePrice: true,
-        productRentPrice: true,
+        productRentPrice: {
+          include: {
+            rentOptionInfo: true,
+          },
+        },
         categoryInfo: true,
       },
     });

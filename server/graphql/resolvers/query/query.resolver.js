@@ -1,10 +1,17 @@
 import { signIn } from "./user.query.js";
+
 import {
   fetchProductData,
   createProductStructure,
   fetchAllProductData,
 } from "./product.query.js";
-import { getRentedProducts, getBoughtProducts } from "./transaction.query.js";
+
+import {
+  getRentedProducts,
+  getBoughtProducts,
+  getSoldProducts,
+  getLentProducts,
+} from "./transaction.query.js";
 
 const Query = {
   signIn,
@@ -13,6 +20,8 @@ const Query = {
   fetchAllProductData,
   getRentedProducts,
   getBoughtProducts,
+  getSoldProducts,
+  getLentProducts,
 };
 
 export { Query };

@@ -4,22 +4,34 @@ const prisma = new PrismaClient();
 const getRentedProducts = async (_, args) => {
   const { userId } = args;
   try {
-    const response = await prisma.$queryRaw`SELECT
-                                          CAST(t."trxId" as varchar(20)) AS transaction_id,
-                                          rt."startTime" AS rent_start_time,
-                                          rt."endTime" AS rent_end_time,
-                                          p."id" AS product_id,
-                                          p.title AS product_title,
-                                          p.description AS product_description,
-                                          u.id AS owner_id,
-                                          u.name AS owner_name,
-                                          u.email AS owner_email
-                                      FROM "Transaction" t
-                                      JOIN "RentTransactions" rt on t."trxId" = rt."transactionId"
-                                      JOIN "Products" p ON t."productId" = p."id"
-                                      JOIN "User" u ON p."userId" = u."id"
-                                      WHERE t."transactionTypeId" = 2 AND t."userId" = ${userId}`;
-    return response;
+    const res = await prisma.transaction.findMany({
+      where: {
+        userId: userId,
+        transactionTypeId: 2,
+      },
+      include: {
+        productInfo: {
+          include: {
+            productRentPrice: {
+              include: {
+                rentOptionInfo: true,
+              },
+            },
+            categoryInfo: true,
+          },
+        },
+        transactionTypeInfo: true,
+        rentTransacations: true,
+      },
+    });
+
+    res.forEach((product) => {
+      (product.trxId = product.trxId.toString()),
+        (product.rentTransacations[0].transactionId =
+          product.rentTransacations[0].transactionId.toString());
+    });
+
+    return res;
   } catch (e) {
     throw new Error(
       `Something went wrong while fetching rented Products, ${e}`
@@ -30,24 +42,108 @@ const getRentedProducts = async (_, args) => {
 const getBoughtProducts = async (_, args) => {
   const { userId } = args;
   try {
-    const response = await prisma.$queryRaw`SELECT
-                                                CAST(t."trxId" as varchar(20)) AS transaction_id,
-                                                p."id" AS product_id,
-                                                p.title AS product_title,
-                                                p.description AS product_description,
-                                                u.id AS owner_id,
-                                                u.name AS owner_name,
-                                                u.email AS owner_email
-                                            FROM "Transaction" t
-                                            JOIN "Products" p ON t."productId" = p."id"
-                                            JOIN "User" u ON p."userId" = u."id"
-                                            WHERE t."transactionTypeId" = 1 AND t."userId" = ${userId} `;
-    return response;
+    const res = await prisma.transaction.findMany({
+      where: {
+        userId: userId,
+        transactionTypeId: 1,
+      },
+      include: {
+        productInfo: {
+          include: {
+            productPurchasePrice: true,
+            categoryInfo: true,
+          },
+        },
+        transactionTypeInfo: true,
+      },
+    });
+
+    res.forEach((product) => {
+      product.trxId = product.trxId.toString();
+    });
+
+    return res;
   } catch (e) {
     throw new Error(
-      `Something went wrong while fetching rented Products, ${e}`
+      `Something went wrong while fetching purchased Products, ${e}`
     );
   }
 };
 
-export { getRentedProducts, getBoughtProducts };
+const getSoldProducts = async (_, args) => {
+  const { userId } = args;
+  try {
+    const response = await prisma.transaction.findMany({
+      where: {
+        productInfo: {
+          userId: userId,
+        },
+        transactionTypeId: 1,
+      },
+      include: {
+        productInfo: {
+          include: {
+            productPurchasePrice: true,
+            categoryInfo: true,
+          },
+        },
+        transactionTypeInfo: true,
+      },
+    });
+
+    response.forEach((product) => {
+      product.trxId = product.trxId.toString();
+    });
+
+    return response;
+  } catch (e) {
+    throw new Error(`Something went wrong while fetching sold Products, ${e}`);
+  }
+};
+
+const getLentProducts = async (_, args) => {
+  const { userId } = args;
+  try {
+    const res = await prisma.transaction.findMany({
+      where: {
+        productInfo: {
+          userId: userId,
+        },
+        transactionTypeId: 2,
+      },
+      include: {
+        productInfo: {
+          include: {
+            productRentPrice: {
+              include: {
+                rentOptionInfo: true,
+              },
+            },
+            categoryInfo: true,
+          },
+        },
+        transactionTypeInfo: true,
+        rentTransacations: true,
+      },
+    });
+
+    res.forEach((product) => {
+      (product.trxId = product.trxId.toString()),
+        (product.rentTransacations[0].transactionId =
+          product.rentTransacations[0].transactionId.toString());
+    });
+
+    return res;
+  } catch (e) {
+    throw new Error(
+      `Something went wrong while fetching purchased Products, ${e}`
+    );
+  }
+};
+
+export {
+  getRentedProducts,
+  getBoughtProducts,
+  getSoldProducts,
+  getLentProducts,
+};
