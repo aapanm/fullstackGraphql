@@ -25,7 +25,7 @@ To install and set up the project on your local machine, follow these steps:
    cd fullStackGraphql
    ```
 
-   Here, you will to folders, 1. Client which consists all codes for the React porject and 2. Server, containing serverside code.
+Here, you will see two folders. 1. Client, which consists all react codes for frontend and 2. Server, containing serverside code.
 
 ## Server side documentation
 
