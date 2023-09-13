@@ -27,3 +27,5 @@ app.use("/graphql", expressMiddleware(server));
 await new Promise((resolve) => httpServer.listen({ port: 8000 }, resolve));
 
 console.log(`Server ready at http://localhost:8000/`);
+
+export { app, server };
