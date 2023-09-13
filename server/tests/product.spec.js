@@ -2,8 +2,6 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import { PrismaClient } from "@prisma/client";
 import { exec } from "child_process";
-import { app, server } from "../app";
-import supertest from "supertest";
 
 const prisma = new PrismaClient();
 const should = chai.should();
