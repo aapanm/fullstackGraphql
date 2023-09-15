@@ -1,6 +1,6 @@
 # Fullstack Graphql
 
-Welcome to the documentation for a fullstack graphqp porject built with react, node (express) and apollo. This document will guide you through the process of installing and running this project from its Git repository.
+Welcome to the documentation for a fullstack graphql porject built with react, node (express) and apollo. This documentation will guide you through the process of installing and running this project from its Git repository.
 
 ## Prerequisites
 
@@ -49,6 +49,12 @@ Once you have completed the installation and configuration steps, you can run th
 npm start
 ```
 
+To, start the watch mode or development mode run following:
+
+```bash
+npm run dev
+```
+
 This command will start the Node.js server and make your application available at a specific address (e.g., `http://localhost:8000`).
 Please refer to the project's documentation or code comments for more information on how to access and use the application.
 
@@ -80,8 +86,8 @@ and then change test script to
 
 This will execute the defined test cases and provide the test results.
 
-<!-- Following links provide more insights about the project:
+Following links provide more insights about the project:
 
 1. [Database Information](docs/dbDoc.md)
 2. [Api Documnetation](docs/apiDoc.md)
-3. [Test Documentation](docs/unit.md) -->
+3. [Test Documentation](docs/unit.md)

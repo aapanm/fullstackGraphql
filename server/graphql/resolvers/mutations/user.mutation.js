@@ -16,7 +16,7 @@ const signUp = async (_, args) => {
 
     return user;
   } catch (error) {
-    throw new Error("Failed to create user!");
+    throw new Error(`Failed to create user!, ${error}`);
   }
 };
 
